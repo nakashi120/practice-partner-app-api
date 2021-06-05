@@ -26,7 +26,7 @@ class PublicUserApiTests(TestCase):
         payload = {
             'email': 'test@londonappdev.com',
             'password': 'testpass',
-            'name': 'Test name'
+            'name': 'name',
         }
         res = self.client.post(CREATE_USER_URL, payload)
 
@@ -40,7 +40,7 @@ class PublicUserApiTests(TestCase):
         payload = {
             'email': 'test@londonappdev.com',
             'password': 'testpass',
-            'name': 'Test'
+            'name': 'Test',
         }
         create_user(**payload)
 
@@ -68,7 +68,6 @@ class PublicUserApiTests(TestCase):
         payload = {
             'email': 'test@londonappdev.com',
             'password': 'testpass',
-            'name': 'Test name'
         }
         create_user(**payload)
         res = self.client.post(TOKEN_URL, payload)
@@ -130,7 +129,7 @@ class PrivateUserApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, {
             'name': self.user.name,
-            'email':self.user.email
+            'email': self.user.email
         })
 
     def test_post_me_not_allowed(self):
@@ -150,5 +149,5 @@ class PrivateUserApiTests(TestCase):
 
         self.user.refresh_from_db()
         self.assertEqual(self.user.name, payload['name'])
-        self.assertTrue(self.user.check_password((payload['password'])))
+        self.assertTrue(self.user.check_password(payload['password']))
         self.assertEqual(res.status_code, status.HTTP_200_OK)
